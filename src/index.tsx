@@ -1,10 +1,4 @@
-import * as React from 'react'
-import styles from './styles.module.css'
-
-interface Props {
-  text: string
-}
-
-export const ExampleComponent = ({ text }: Props) => {
-  return <div className={styles.test}>Example Component: {text}</div>
-}
+export { ServiceProvider } from 'components/providers/Service';
+export { default as EditorBase } from 'components/base/EditorBase';
+export { default as InsertMenuBase } from 'components/base/InsertMenuBase';
+export { default as FormatMenuBase } from 'components/base/FormatMenuBase';

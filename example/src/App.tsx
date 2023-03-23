@@ -1,10 +1,12 @@
 import React from 'react'
-
-import { ExampleComponent } from 'react-blog-editor'
-import 'react-blog-editor/dist/index.css'
+import {EditorBase} from 'react-blog-editor';
 
 const App = () => {
-  return <ExampleComponent text="Create React Library Example 😄" />
+  return (
+    <div>
+      <EditorBase />
+    </div>
+  )
 }
 
 export default App
