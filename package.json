@@ -1,6 +1,6 @@
 {
   "name": "react-blog-editor",
-  "version": "1.0.0",
+  "version": "0.0.1-dev",
   "description": "An WYSIWYG editor made with React, Material-UI and Tiptap that you can use for editing your blog",
   "author": "Nanoky",
   "license": "MIT",
