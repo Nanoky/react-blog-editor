@@ -38,12 +38,12 @@ const EditorBase = ({
             {editor && (
                 <React.Fragment>
                     {formatMenu ? (
-                        { formatMenu }
+                        formatMenu
                     ) : (
                         <FormatMenuBase editor={editor} />
                     )}
                     {insertMenu ? (
-                        { insertMenu }
+                        insertMenu
                     ) : (
                         <InsertMenuBase editor={editor} />
                     )}

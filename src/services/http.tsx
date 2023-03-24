@@ -1,6 +1,4 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-useless-constructor */
-/* eslint-disable prettier/prettier */
+
 import axios, {
     AxiosInstance,
     AxiosRequestConfig,
@@ -31,11 +29,11 @@ class HttpService implements HttpConfig {
         this.key = config?.key;
         this.keyType = config?.keyType;
 
-        this.axiosInstance.interceptors.request.use(
+        this.axiosInstance?.interceptors.request.use(
             this.requestInterceptorSuccess,
             this.requestInterceptorError
         );
-        this.axiosInstance.interceptors.response.use(
+        this.axiosInstance?.interceptors.response.use(
             this.responseInterceptorSuccess,
             this.responseInterceptorError
         );
@@ -81,7 +79,7 @@ class HttpService implements HttpConfig {
         _successProcess?: <I>(data: I, status: number) => O,
         _errorProcess?: <T>(error: T) => void
     ) => {
-        const promise = this.axiosInstance.get(url, config);
+        const promise = this.axiosInstance?.get(url, config);
         
         if (_successProcess && _errorProcess)
             return this.applyProcesses<O>(promise, _successProcess, _errorProcess);
@@ -96,7 +94,7 @@ class HttpService implements HttpConfig {
         _successProcess?: <I>(data: I, status: number) => O,
         _errorProcess?: <T>(error: T) => void
     ) => {
-        const promise = this.axiosInstance.post(url, data, config);
+        const promise = this.axiosInstance?.post(url, data, config);
         
         if (_successProcess && _errorProcess)
             return this.applyProcesses<O>(promise, _successProcess, _errorProcess);
@@ -111,7 +109,7 @@ class HttpService implements HttpConfig {
         _successProcess?: <I>(data: I, status: number) => O,
         _errorProcess?: <T>(error: T) => void
     ) => {
-        const promise = this.axiosInstance.put(url, data, config);
+        const promise = this.axiosInstance?.put(url, data, config);
         
         if (_successProcess && _errorProcess)
             return this.applyProcesses<O>(promise, _successProcess, _errorProcess);
@@ -125,7 +123,7 @@ class HttpService implements HttpConfig {
         _successProcess?: <I>(data: I, status: number) => O,
         _errorProcess?: <T>(error: T) => void
     ) => {
-        const promise = this.axiosInstance.delete(url, config);
+        const promise = this.axiosInstance?.delete(url, config);
 
         
         if (_successProcess && _errorProcess)

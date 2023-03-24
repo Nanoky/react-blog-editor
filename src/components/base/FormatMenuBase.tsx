@@ -54,7 +54,12 @@ const FormatMenuBase = ({
 
     useEffect(() => {
         if (headingLevels) {
-            setLevels([headingLevels?.[0] ?? 1, headingLevels?.[1] ?? 2]);
+            const levels = Array<Level>(2);
+            levels.push(1);
+            levels.push(2);
+            if (headingLevels[0]) levels[0] = headingLevels[0];
+            if (headingLevels[1]) levels[1] = headingLevels[1];
+            setLevels(levels);
         }
     }, [headingLevels]);
 
