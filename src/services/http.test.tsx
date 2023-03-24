@@ -1,16 +1,18 @@
-import axios from 'axios';
+/* import axios from 'axios'; */
 import HttpService from './http';
 
-jest.mock('axios');
-const mockedAxios = axios as jest.Mocked<typeof axios>;
+jest.setTimeout(15000);
+
+/* jest.mock('axios');
+const mockedAxios = axios as jest.Mocked<typeof axios>; */
 
 class Output {
     id: number;
-    name: string;
+    email: string;
 
-    constructor(id: number, name: string) {
+    constructor(id: number, email: string) {
         this.id = id;
-        this.name = name;
+        this.email = email;
     }
 }
 
@@ -24,11 +26,11 @@ class Output {
 
 describe('http request', () => {
     var service: HttpService;
-    const outputs = [new Output(1, 'Hello'), new Output(2, 'World')];
+    /* const outputs = [new Output(1, 'Hello'), new Output(2, 'World')]; */
 
     beforeAll(() => {
         service = new HttpService({
-            baseUrl: "https://www.google.fr"
+            baseUrl: 'https://www.google.fr'
         });
     });
 
@@ -40,19 +42,29 @@ describe('http request', () => {
         expect(service.axiosInstance).toBeTruthy();
     });
 
-    test('should a new axiosInstance be defined', () => {
-        const instance = mockedAxios.create();
-
-        expect(axios).toBeDefined();
-        expect(axios.create).toBeDefined();
-        expect(mockedAxios).toBeDefined();
-        expect(instance).toBeDefined();
-    })
-
     test('should get success without processes', async () => {
-        mockedAxios.get.mockResolvedValue(outputs);
         const result = await service?.get('https://catfact.ninja/fact');
 
         expect(result).toBeTruthy();
+    });
+
+    test('should get success without processes', async () => {
+        const result = await service?.get<Output[]>(
+            'https://reqres.in/api/users',
+            undefined,
+            (result: any) => {
+                return result?.data.map((item: any) => {
+                    return new Output(item.id, item.email);
+                });
+            },
+            (err: any) => {
+                throw err;
+            }
+        );
+
+        expect(result).toBeTruthy();
+        expect(result.length).toBeDefined();
+        expect(result?.length).toBeGreaterThan(0);
+        expect(result?.[0].email).toBeDefined();
     });
 });

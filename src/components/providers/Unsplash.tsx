@@ -1,9 +1,10 @@
 /* eslint-disable no-unused-vars */
 import { useEffect } from 'react';
-import { ContextType, useService } from './Service';
+import { useService } from './Service';
 import HttpService from 'services/http';
 
 const UNSPLASH_SERVICE_NAME = 'unsplash';
+const UNSPLASH_BASE_URL = 'https://api.unsplash.com';
 
 export const useUnspashService = () => {
     const services = useService();
@@ -18,22 +19,19 @@ export const useUnsplashEnabled = () => {
 };
 
 export const useConfigUnspash = (
-    onServicesUpdate: React.Dispatch<React.SetStateAction<{}>>,
+    onServicesUpdate: (service: HttpService, name: string) => void,
     key?: string
 ) => {
     useEffect(() => {
         if (key) {
-            onServicesUpdate((prev) => setUnsplashService(prev, key));
+            onServicesUpdate(
+                new HttpService({
+                    baseUrl: UNSPLASH_BASE_URL,
+                    key: key,
+                    keyType: 'Client-ID'
+                }),
+                UNSPLASH_SERVICE_NAME
+            );
         }
     }, [key]);
-
-    const setUnsplashService = (prev: ContextType, key: string) => {
-        return {
-            ...prev,
-            [UNSPLASH_SERVICE_NAME]: new HttpService({
-                key: key,
-                keyType: 'Client-ID'
-            })
-        };
-    };
 };
