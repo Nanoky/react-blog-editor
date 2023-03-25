@@ -42,7 +42,7 @@ interface MenuProps {
 const FormatMenuBase = ({
     editor,
     linkPlaceholder = 'Past or type a link ...',
-    headingLevels = [1, 2],
+    headingLevels,
     disableBold = false,
     disableHeading = false,
     disableItalic = false,
@@ -50,16 +50,11 @@ const FormatMenuBase = ({
 }: MenuProps) => {
     const [showMenu, setShowMenu] = useState(true);
     const [linkValue, setLinkValue] = useState('');
-    const [levels, setLevels] = useState(headingLevels);
+    const [levels, setLevels] = useState<Array<Level>>([1, 2]);
 
     useEffect(() => {
         if (headingLevels) {
-            const levels = Array<Level>(2);
-            levels.push(1);
-            levels.push(2);
-            if (headingLevels[0]) levels[0] = headingLevels[0];
-            if (headingLevels[1]) levels[1] = headingLevels[1];
-            setLevels(levels);
+            setLevels(headingLevels);
         }
     }, [headingLevels]);
 

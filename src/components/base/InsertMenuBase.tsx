@@ -2,24 +2,27 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable prettier/prettier */
 
-import { IonIcon } from '@ionic/react';
 import { Editor, FloatingMenu } from '@tiptap/react';
 import React, { useRef, useState } from 'react';
 import MenuButton, { MenuButtonProps } from './MenuButton';
-import { useUnsplashEnabled } from 'components/providers/Unsplash';
 import { UnsplashPhoto } from 'services/unsplashService';
 import UnsplashImageSelector from './ImageSelector';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { faImage } from '@fortawesome/free-solid-svg-icons';
+import { faUnsplash } from '@fortawesome/free-brands-svg-icons';
+import { useUnsplashEnabled } from 'hooks/useUnsplash';
 
 interface ButtonProps extends MenuButtonProps {
-    icon: string;
+    icon: IconProp;
 }
 
 const InsertButton = ({ icon, ...props }: ButtonProps) => {
     return (
         <MenuButton
             {...props}
-            iconComponent={(iconProps) => (
-                <IonIcon name={icon} size={iconProps.size} />
+            iconComponent={() => (
+                <FontAwesomeIcon icon={icon} /* size={iconProps.size} */ />
             )}
         />
     );
@@ -76,13 +79,13 @@ const InsertMenuBase = ({ editor }: MenuProps) => {
             />
             <InsertButton
                 title='Image from computer'
-                icon='camera-outlined'
+                icon={faImage}
                 onClick={handleLocalImageClick}
             />
             {unsplashEnabled && (
                 <InsertButton
                     title='Image from unsplash'
-                    icon='image-outlined'
+                    icon={faUnsplash}
                     onClick={handleUnsplashImageClick}
                 />
             )}

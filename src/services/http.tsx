@@ -15,6 +15,7 @@ interface HttpConfig {
 class HttpService implements HttpConfig {
 
     axiosInstance: AxiosInstance;
+    private abortController: AbortController
 
     baseUrl?: string | undefined;
     key: string | undefined;
@@ -25,6 +26,8 @@ class HttpService implements HttpConfig {
         this.axiosInstance = axios.create({
             baseURL: this.baseUrl
         });
+
+        this.abortController = new AbortController();
 
         this.key = config?.key;
         this.keyType = config?.keyType;
@@ -44,6 +47,8 @@ class HttpService implements HttpConfig {
         if (this.key) {
             config.headers.Authorization = `${this.keyType} ${this.key}`;
         }
+
+        config.signal = this.abortController.signal;
 
         return config;
     };
@@ -131,6 +136,11 @@ class HttpService implements HttpConfig {
 
         return promise;
     };
+
+    abort = () => {
+        console.trace("Show me");
+        this.abortController.abort();
+    }
 }
 
 export default HttpService;

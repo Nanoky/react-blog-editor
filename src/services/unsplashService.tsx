@@ -39,7 +39,7 @@ export class UnsplashResponse {
     };
 }
 
-interface QueryParams {
+export interface QueryParams {
     query: string;
     page?: number;
     perPage?: number;
@@ -54,15 +54,13 @@ const getQueryUrl = (
 
 export const searchUnsplash = (
     service: HttpService,
-    pattern: string,
-    page?: number,
-    perPage?: number
+    params: QueryParams
 ): Promise<UnsplashResponse> => {
     return service.get<UnsplashResponse>(
         getQueryUrl(SEARCH_URL, {
-            query: pattern,
-            page: page,
-            perPage: perPage
+            query: params.query,
+            page: params.page,
+            perPage: params.perPage
         }),
         undefined,
         (data: any) => {

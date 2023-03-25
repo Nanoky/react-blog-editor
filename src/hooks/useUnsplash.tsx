@@ -1,9 +1,9 @@
 /* eslint-disable no-throw-literal */
 /* eslint-disable no-unused-vars */
-import useHttp from './useHttp';
-import { UnsplashResponse, searchUnsplash } from 'services/unsplashService';
-import { useUnspashService } from 'components/providers/Unsplash';
-import { useEffect, useState } from 'react';
+import useHttp, { useServiceEnabled } from './useHttp';
+import { QueryParams, UnsplashResponse, searchUnsplash } from 'services/unsplashService';
+import { UNSPLASH_SERVICE_NAME } from 'components/providers/Unsplash';
+import { useCallback } from 'react';
 
 interface HookResponse {
     search: (pattern: string, page?: number, perPage?: number) => void;
@@ -13,33 +13,15 @@ interface HookResponse {
 }
 
 export const useSearch = (): HookResponse => {
-    const [loading, setLoading] = useState(false);
-    const [page, setPage] = useState<number | undefined>();
-    const [perPage, setPerPage] = useState<number | undefined>();
-    const [pattern, setPattern] = useState('');
+    const http = useHttp<UnsplashResponse, QueryParams>(UNSPLASH_SERVICE_NAME, new UnsplashResponse());
 
-    const http = useHttp<UnsplashResponse>(new UnsplashResponse());
-    const service = useUnspashService();
-
-    useEffect(() => {
-        if (service && loading) {
-            http.call(searchUnsplash(service, pattern, page, perPage));
-            setLoading(false);
-        }
-    }, [service]);
-
-    const search = (pattern: string, page?: number, perPage?: number) => {
-        if (service) {
-            http.call(searchUnsplash(service, pattern, page, perPage));
-        } else {
-            if (!loading) {
-                setLoading(true);
-                setPage(page);
-                setPerPage(perPage);
-                setPattern(pattern);
-            }
-        }
-    };
+    const search = useCallback((pattern: string, page?: number, perPage?: number) => {
+        http.call(searchUnsplash, {
+            query: pattern,
+            page: page,
+            perPage: perPage
+        });
+    }, [http]);
 
     return {
         search,
@@ -47,4 +29,8 @@ export const useSearch = (): HookResponse => {
         loading: http.loading,
         error: http.error
     };
+};
+
+export const useUnsplashEnabled = () => {
+    return useServiceEnabled(UNSPLASH_SERVICE_NAME);
 };

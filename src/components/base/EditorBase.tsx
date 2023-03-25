@@ -10,6 +10,8 @@ import InsertMenuBase from './InsertMenuBase';
 
 interface Props {
     placeholder: string;
+    initialContent?: string;
+    onHTMLChange: (code: string) => void;
     editable?: boolean;
     formatMenu?: React.ReactNode;
     insertMenu?: React.ReactNode;
@@ -19,7 +21,9 @@ const EditorBase = ({
     placeholder,
     editable = true,
     formatMenu,
-    insertMenu
+    insertMenu,
+    initialContent,
+    onHTMLChange
 }: Props) => {
     const editor = useEditor({
         extensions: [
@@ -30,7 +34,11 @@ const EditorBase = ({
             Link,
             Image
         ],
-        editable: editable
+        editable: editable,
+        onUpdate: ({ editor }) => {
+            onHTMLChange(editor.getHTML());
+        },
+        content: initialContent
     });
 
     return (

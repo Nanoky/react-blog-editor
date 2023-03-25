@@ -1,5 +1,3 @@
-/* eslint-disable no-useless-constructor */
-/* eslint-disable no-unused-vars */
 import React, { createContext, useCallback, useContext, useState } from 'react';
 import HttpService from 'services/http';
 import { useConfigUnspash } from './Unsplash';
@@ -15,8 +13,9 @@ export interface ContextType {
 
 const ServiceContext = createContext<ContextType>({});
 
-export const useService = () => {
-    return useContext(ServiceContext);
+export const useService = (name: string) => {
+    const services = useContext(ServiceContext)
+    return services[name];
 };
 
 export const ServiceProvider = ({ unsplashKey, children }: providerProps) => {
